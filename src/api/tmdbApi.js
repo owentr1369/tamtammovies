@@ -1,11 +1,12 @@
 import { type } from "@testing-library/user-event/dist/type";
 import axiosClient from "./axiosClient";
-
+import apiConfig from "./apiConfig";
 export const category = {
   movie: "movie",
   tv: "tv",
 };
 
+const axios = require("axios");
 export const movieType = {
   upcoming: "upcoming",
   popular: "popular",
@@ -21,7 +22,19 @@ export const tvType = {
 const tmdbApi = {
   getMovieList: (type, params) => {
     const url = "movie/" + movieType[type];
-    return axiosClient.get(url, params);
+    // Remind me to fix this url
+    const hardUrl =
+      "https://api.themoviedb.org/3/movie/popular?api_key=30cc1f2f146a0f887c19793e0f90d866&language=en-US&page=1";
+    const resData = axios
+      .get(hardUrl)
+      .then((response) => {
+        return response.data.results;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    return resData;
+    // return axiosClient.get(url, params);
   },
   getTvList: (type, params) => {
     const url = "tv/" + tvType[type];

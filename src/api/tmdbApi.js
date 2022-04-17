@@ -21,20 +21,20 @@ export const tvType = {
 
 const tmdbApi = {
   getMovieList: (type, params) => {
+    // const url = `${apiConfig.baseUrl}movie/${movieType[type]}?api_key=${apiConfig.apiKey}&language=en-US&page=1`;
+    // "movie/" + movieType[type];
+    // const resData = axios
+    //   .get(url)
+    //   .then((response) => {
+    //     console.log(response.data.results);
+    //     return response.data.results;
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+    // return resData;
     const url = "movie/" + movieType[type];
-    // Remind me to fix this url
-    const hardUrl =
-      "https://api.themoviedb.org/3/movie/popular?api_key=30cc1f2f146a0f887c19793e0f90d866&language=en-US&page=1";
-    const resData = axios
-      .get(hardUrl)
-      .then((response) => {
-        return response.data.results;
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    return resData;
-    // return axiosClient.get(url, params);
+    return axiosClient.get(url, params);
   },
   getTvList: (type, params) => {
     const url = "tv/" + tvType[type];

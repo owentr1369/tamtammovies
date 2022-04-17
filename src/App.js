@@ -1,5 +1,5 @@
 import "./App.scss";
-import "swiper/swiper.min.css";
+// import "swiper";
 import "./assets/boxicons-2.0.9/css/boxicons.min.css";
 
 import { BrowserRouter, Route } from "react-router-dom";

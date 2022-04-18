@@ -2,7 +2,7 @@ import { type } from "@testing-library/user-event/dist/type";
 import axiosClient from "./axiosClient";
 import apiConfig from "./apiConfig";
 export const category = {
-  movie: "movie",
+  movies: "movies",
   tv: "tv",
 };
 

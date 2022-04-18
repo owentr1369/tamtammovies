@@ -31,7 +31,7 @@ function HeroSlide() {
       <div className="hero-slide">
         <Swiper
           autoplay={{
-            delay: 100000,
+            delay: 2500,
             disableOnInteraction: false,
           }}
           centeredSlides={true}

@@ -7,7 +7,6 @@ import apiConfig from "../../api/apiConfig";
 import "swiper/css/bundle";
 import Button, { OutlineButton } from "../button/Button";
 import { useNavigate } from "react-router-dom";
-import Modal, { ModalContent } from "../modal/Modal";
 import TrailerModal from "./TrailerModal";
 
 function HeroSlide() {
@@ -32,7 +31,7 @@ function HeroSlide() {
       <div className="hero-slide">
         <Swiper
           autoplay={{
-            delay: 2500,
+            delay: 100000,
             disableOnInteraction: false,
           }}
           centeredSlides={true}
@@ -76,8 +75,9 @@ const HeroSlideItem = (props) => {
     const modal = document.querySelector(`#modal_${item.id}`);
 
     const videos = await tmdbApi.getVideos(category.movie, item.id);
-    if (videos.results.length >= 0) {
-      const videoSrc = "https://www.youtube.com/embed/" + videos.results[0].key;
+    if (videos.data.results.length >= 0) {
+      const videoSrc =
+        "https://www.youtube.com/embed/" + videos.data.results[0].key;
       modal
         .querySelector(".modal__content > iframe")
         .setAttribute("src", videoSrc);

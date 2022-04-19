@@ -6,22 +6,20 @@ import "./movie-list.scss";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import tmdbApi, { category } from "../../api/tmdbApi";
-import apiConfig from "../../api/apiConfig";
-import { Pagination } from "swiper";
 import MovieCard from "../movie-card/MovieCard";
 import { FreeMode, Navigation, Thumbs } from "swiper";
 
 const MovieList = (props) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [items, setItems] = useState([]);
+
   useEffect(() => {
     const getList = async () => {
-      let response = null;
       const params = {};
-
+      let response = null;
       if (props.type !== "similar") {
         switch (props.category) {
-          case category.movies:
+          case category.movie:
             response = await tmdbApi.getMovieList(props.type, { params });
             break;
           default:

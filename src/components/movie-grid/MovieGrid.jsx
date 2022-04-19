@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./movie-grid.scss";
 import MovieCard from "../movie-card/MovieCard";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import tmdbApi, { category, movieType, tvType } from "../../api/tmdbApi";
 import { OutlineButton } from "../button/Button";
+import Input from "../input/input";
 
 const MovieGrid = (props) => {
   const [items, setItems] = useState([]);
@@ -20,7 +21,7 @@ const MovieGrid = (props) => {
       if (keyword === undefined) {
         const params = {};
         switch (props.category) {
-          case category.movies:
+          case category.movie:
             response = await tmdbApi.getMovieList(movieType.upcoming, {
               params,
             });
@@ -40,47 +41,83 @@ const MovieGrid = (props) => {
     getList();
   }, [props.category, keyword]);
 
-  //   const loadMore = async () => {
-  //     let response = null;
-  //     if (keyword === undefined) {
-  //       const params = {
-  //         page: page + 1,
-  //       };
-  //       switch (props.category) {
-  //         case category.movies:
-  //           response = await tmdbApi.getMovieList(movieType.upcoming, {
-  //             params,
-  //           });
-  //           break;
-  //         default:
-  //           response = await tmdbApi.getTvList(tvType.popular, { params });
-  //       }
-  //     } else {
-  //       const params = {
-  //         page: page + 1,
-  //         query: keyword,
-  //       };
-  //       response = await tmdbApi.search(props.category, { params });
-  //     }
-  //     setItems(...items, ...response.data.results);
-  //     setPage(page + 1);
-  //   };
+  const loadMore = async () => {
+    let response = null;
+    if (keyword === undefined) {
+      const params = {
+        page: page + 1,
+      };
+      switch (props.category) {
+        case category.movie:
+          response = await tmdbApi.getMovieList(movieType.upcoming, {
+            params,
+          });
+          break;
+        default:
+          response = await tmdbApi.getTvList(tvType.popular, { params });
+      }
+    } else {
+      const params = {
+        page: page + 1,
+        query: keyword,
+      };
+      response = await tmdbApi.search(props.category, { params });
+    }
+    setItems([...items, ...response.data.results]);
+    setPage(page + 1);
+  };
   return (
     <>
+      <div className="section mb-3">
+        <MovieSearch category={props.category} keyword={keyword} />
+      </div>
       <div className="movie-grid">
         {items.map((item, i) => (
           <MovieCard category={props.category} item={item} key={i} />
         ))}
       </div>
-      {/* {page < totalPage ? (
+      {page < totalPage ? (
         <div className="movie-grid__loadmore">
           <OutlineButton className="small" onClick={loadMore}>
             Load more
           </OutlineButton>
         </div>
-      ) : null} */}
+      ) : null}
     </>
   );
 };
+const MovieSearch = (props) => {
+  const navigate = useNavigate();
 
+  const [keyword, setKeyword] = useState(props.keyword ? props.keyword : "");
+
+  const goToSearch = useCallback(() => {
+    if (keyword.trim().length > 0) {
+      navigate(`/${category[props.category]}/search/${keyword}`);
+    }
+  }, [keyword, props.category, navigate]);
+  useEffect(() => {
+    const enterEvent = (e) => {
+      e.preventDefault();
+      if (e.keyCode === 13) {
+        goToSearch();
+      }
+    };
+    document.addEventListener("keyup", enterEvent);
+    return () => {
+      document.removeEventListener("keyup", enterEvent);
+    };
+  }, [keyword, goToSearch]);
+
+  return (
+    <div className="movie-search">
+      <Input
+        type="text"
+        placeholder="Enter to search"
+        value={keyword}
+        onChange={(e) => setKeyword(e.target.value)}
+      />
+    </div>
+  );
+};
 export default MovieGrid;

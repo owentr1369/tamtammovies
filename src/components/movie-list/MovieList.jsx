@@ -18,9 +18,10 @@ const MovieList = (props) => {
     const getList = async () => {
       let response = null;
       const params = {};
+
       if (props.type !== "similar") {
         switch (props.category) {
-          case category.movie:
+          case category.movies:
             response = await tmdbApi.getMovieList(props.type, { params });
             break;
           default:

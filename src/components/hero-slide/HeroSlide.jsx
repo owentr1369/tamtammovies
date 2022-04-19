@@ -31,7 +31,7 @@ function HeroSlide() {
       <div className="hero-slide">
         <Swiper
           autoplay={{
-            delay: 21000,
+            delay: 2500,
             disableOnInteraction: false,
           }}
           centeredSlides={true}
@@ -71,12 +71,11 @@ const HeroSlideItem = (props) => {
   const background = apiConfig.originalImage(
     item.backdrop_path ? item.backdrop_path : item.poster_path
   );
-
   const setModalActive = async () => {
     const modal = document.querySelector(`#modal_${item.id}`);
 
-    const videos = await tmdbApi.getVideos(category.movies, item.id);
-    console.log(videos.data.results);
+    const videos = await tmdbApi.getVideos(category.movie, item.id);
+
     if (videos.data.results.length > 0) {
       const videSrc =
         "https://www.youtube.com/embed/" + videos.data.results[0].key;
@@ -109,7 +108,7 @@ const HeroSlideItem = (props) => {
           </div>
         </div>
         <div className="hero-slide__item__content__poster">
-          <img src={apiConfig.w500Image(item.poster_path)}></img>
+          <img src={apiConfig.w500Image(item.poster_path)} alt="" />
         </div>
       </div>
     </div>

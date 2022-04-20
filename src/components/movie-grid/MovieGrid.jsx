@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import tmdbApi, { category, movieType, tvType } from "../../api/tmdbApi";
 import { OutlineButton } from "../button/Button";
 import Input from "../input/input";
+import { Navigation } from "swiper";
 
 const MovieGrid = (props) => {
   const [items, setItems] = useState([]);

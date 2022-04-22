@@ -28,6 +28,15 @@ button {
     color: $white;
     box-shadow: unset;
     transition: color 0.3 ease, background-color 0.3s ease;
+    left: 3% !important;
+
+    @include tablet {
+        left: 0% !important;
+    }
+
+    @include mobile {
+        left: 0% !important;
+    }
 }
 
 .btn-outline:hover {
